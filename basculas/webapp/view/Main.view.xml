@@ -1,0 +1,53 @@
+<mvc:View
+    controllerName="logaligroup.basculas.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+>
+    <Page
+        id="page"
+        title="{i18n>title}"
+    >
+        <content>
+            <Table
+                id="productsTable"
+                items="{/Products}"
+                mode="SingleSelectMaster"
+                selectionChange="onSelectionChange"
+            >
+                <headerToolbar>
+                    <Toolbar>
+                        <Title text="{i18n>tableTitle}" />
+                    </Toolbar>
+                </headerToolbar>
+                <columns>
+                    <Column>
+                        <Text text="{i18n>productID}" />
+                    </Column>
+                    <Column>
+                        <Text text="{i18n>productName}" />
+                    </Column>
+                    <Column>
+                        <Text text="{i18n>unitPrice}" />
+                    </Column>
+                    <Column>
+                        <Text text="{i18n>unitsInStock}" />
+                    </Column>
+                    <Column>
+                        <Text text="{i18n>categoryID}" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Text text="{ProductID}" />
+                            <Text text="{ProductName}" />
+                            <Text text="{UnitPrice}" />
+                            <Text text="{UnitsInStock}" />
+                            <Text text="{CategoryID}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+    </Page>
+</mvc:View>
