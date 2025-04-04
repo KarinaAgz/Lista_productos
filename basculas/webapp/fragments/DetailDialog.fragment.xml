@@ -4,27 +4,63 @@
     xmlns:form="sap.ui.layout.form">
     <Dialog
         title="Detalles del Producto: {detail>/ProductID}"
-        contentWidth="500px">
+        contentWidth="600px"
+        contentHeight="400px"
+        stretchOnPhone="true">
         <content>
-            <form:SimpleForm
-                editable="false"
-                layout="ResponsiveGridLayout">
-                <form:content>
-                    <Label text="Nombre del Producto"/>
-                    <Text text="{detail>/ProductName}"/>
-                    <Label text="Precio Unitario"/>
-                    <Text text="{detail>/UnitPrice}"/>
-                    <Label text="Unidades en Stock"/>
-                    <Text text="{detail>/UnitsInStock}"/>
-                    <Label text="ID de Categoría"/>
-                    <Text text="{detail>/CategoryID}"/>
-                    <Label text="Proveedor ID"/>
-                    <Text text="{detail>/SupplierID}"/>
-                </form:content>
-            </form:SimpleForm>
+            <VBox class="sapUiSmallMargin">
+                <ObjectHeader
+                    title="{detail>/ProductName}"
+                    number="{detail>/UnitPrice}"
+                    numberUnit="USD"
+                    intro="ID: {detail>/ProductID}"
+                    backgroundDesign="Solid"
+                    condensed="true">
+                    <statuses>
+                        <ObjectStatus
+                            text="{detail>/discontinuedText}"
+                            state="{detail>/discontinuedState}"/>
+                        <ObjectStatus
+                            text="Stock: {detail>/UnitsInStock}"
+                            state="{detail>/stockState}"/>
+
+                        <ObjectStatus
+                            text="{detail>/summaryText}"
+                            state="{detail>/summaryState}"/>
+                    </statuses>
+                </ObjectHeader>
+                <form:SimpleForm
+                    editable="false"
+                    layout="ResponsiveGridLayout"
+                    labelSpanL="4"
+                    labelSpanM="4"
+                    labelSpanS="12"
+                    columnsL="2"
+                    columnsM="2">
+                    <form:content>
+                        <core:Title text="Información General"/>
+                        <Label text="Nombre"/>
+                        <Text text="{detail>/ProductName}"/>
+                        <Label text="Precio Unitario"/>
+                        <ObjectNumber number="{detail>/UnitPrice}" unit="USD"/>
+                        <Label text="Unidades en Stock"/>
+                        <ObjectNumber number="{detail>/UnitsInStock}"/>
+                        <core:Title text="Detalles Adicionales"/>
+                        <Label text="Categoría ID"/>
+                        <Text text="{detail>/CategoryID}"/>
+                        <Label text="Proveedor ID"/>
+                        <Text text="{detail>/SupplierID}"/>
+                        <Label text="Discontinuado"/>
+                        <Text text="{detail>/discontinuedText}"/>
+                    </form:content>
+                </form:SimpleForm>
+            </VBox>
         </content>
-        <beginButton>
-            <Button text="Cerrar" press="onCloseDialog"/>
-        </beginButton>
+        <buttons>
+            <Button
+                text="Cerrar"
+                type="Emphasized"
+                press="onCloseDialog"/>
+        </buttons>
     </Dialog>
 </core:FragmentDefinition>

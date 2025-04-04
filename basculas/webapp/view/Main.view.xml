@@ -2,47 +2,139 @@
     controllerName="logaligroup.basculas.controller.Main"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
+    xmlns:core="sap.ui.core"
 >
     <Page
         id="page"
         title="{i18n>title}"
+        showHeader="true"
+        enableScrolling="true"
+        
     >
+        <subHeader>
+            <Toolbar>
+                <SearchField
+                    id="searchField"
+                    placeholder="Busca por nombre producto"
+                    width="40%"
+                    liveChange="onFilter"
+                />
+                <Input
+                    id="priceFilter"
+                    type="Number"
+                    placeholder="Precio Máximo"
+                    width="20%"
+                    liveChange="onFilter"
+                />
+                <Input
+                    id="stockFilter"
+                    type="Number"
+                    placeholder="Stock Minimo"
+                    width="20%"
+                    liveChange="onFilter"
+                />
+                <Select
+                    id="discontinuedFilter"
+                    width="20%"
+                    change="onFilter"
+                >
+                    <items>
+                        <core:Item
+                            key="all"
+                            text="Todos"
+                        />
+                        <core:Item
+                            key="active"
+                            text="Activos"
+                        />
+                        <core:Item
+                            key="discontinued"
+                            text="Discontinuados"
+                        />
+                    </items>
+                </Select>
+                <Button
+                    text="LimpiarFiltros"
+                    press="onClearFilters"
+                    type="Emphasized"
+                />
+            </Toolbar>
+        </subHeader>
         <content>
             <Table
                 id="productsTable"
-                items="{/Products}"
+                items="{path:'/Products',parameters:{$count:true}}"
+                growing="true"
+                growingThreshold="15"
                 mode="SingleSelectMaster"
                 selectionChange="onSelectionChange"
+                sort="onSort"
+                busyIndicatorDelay="0"
+                sticky="ColumnHeaders,HeaderToolbar"
             >
                 <headerToolbar>
-                    <Toolbar>
-                        <Title text="{i18n>tableTitle}" />
-                    </Toolbar>
+                    <OverflowToolbar>
+                        <Title
+                            text="{i18n>tableTitle}"
+                            level="H2"
+                        />
+                        <ToolbarSpacer />
+                        <Button
+                        icon="sap-icon://refresh"
+                        tooltip="Refrescar"
+                        press="onRefresh"/>
+                       
+                        
+                        <Button
+                            text="Excel"
+                            icon="sap-icon://excel-attachment"
+                            press="onExport"
+                            type="Emphasized"
+                        />
+                    </OverflowToolbar>
                 </headerToolbar>
                 <columns>
-                    <Column>
+                    <Column width="10%">
                         <Text text="{i18n>productID}" />
                     </Column>
-                    <Column>
+                    <Column width="30%">
                         <Text text="{i18n>productName}" />
                     </Column>
-                    <Column>
+                    <Column
+                        width="15%"
+                        hAlign="End"
+                    >
                         <Text text="{i18n>unitPrice}" />
                     </Column>
-                    <Column>
+                    <Column
+                        width="15%"
+                        hAlign="End"
+                    >
                         <Text text="{i18n>unitsInStock}" />
                     </Column>
-                    <Column>
+                    <Column width="15%">
                         <Text text="{i18n>categoryID}" />
                     </Column>
                 </columns>
                 <items>
-                    <ColumnListItem>
+                    <ColumnListItem
+                        type="Active"
+                        highlight="{= ${Discontinued}? 'Error':'Success'}"
+                    >
                         <cells>
                             <Text text="{ProductID}" />
-                            <Text text="{ProductName}" />
-                            <Text text="{UnitPrice}" />
-                            <Text text="{UnitsInStock}" />
+
+                            <ObjectIdentifier title="{ProductName}" />
+                            <ObjectNumber
+                                number="{UnitPrice}"
+                                unit="USD"
+                                state="Information"
+                            />
+                            <ObjectNumber
+                                number="{UnitsInStock}"
+                                state="{= ${UnitsInStock} &lt; 10 ? 'Warning' : 'Success'}"
+                            />
+
                             <Text text="{CategoryID}" />
                         </cells>
                     </ColumnListItem>
